@@ -1,0 +1,15 @@
+{
+  "name": "l2-a-module",
+  "version": "0.0.1",
+  "description": "1dv610 - L2 A Module",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "contributors": [
+    "Emil Meri <em223ve@student.lnu.se"
+  ],
+  "license": "MIT",
+  "private": true
+}
