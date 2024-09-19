@@ -4,3 +4,9 @@
  * @author Emil Meri <em223ve@student.lnu.se>
  * @version 0.0.1
  */
+
+try {
+  startApp()
+} catch (err) {
+  console.error(err)
+}
