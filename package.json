@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "1dv610 - L2 A Module",
   "type": "module",
-  "main": "src/app.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node src/app.js"
+    "start": "node src/index.js"
   },
   "contributors": [
     "Emil Meri <em223ve@student.lnu.se"
