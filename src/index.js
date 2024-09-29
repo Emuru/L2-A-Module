@@ -5,4 +5,13 @@
  * @version 0.0.1
  */
 
-import CaesarCipher from './CaesarCipher.js'
+import { Alphabet } from './Alphabet.js'
+import { CaesarCipher } from './CaesarCipher.js'
+
+const alphabet = new Alphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ')
+
+const caesarCipher = new CaesarCipher(5, alphabet)
+
+console.log(caesarCipher.encrypt('Marthatoca'))
+
+caesarCipher.decrypt('')
