@@ -16,20 +16,22 @@ const caesarCipher = new CaesarCipher(5, alphabet)
 
 const albertiCipher = new AlbertiCipher(2, 5, alphabet)
 
-const vigenereCipher = new VigenereCipher('lakrits', alphabet)
+const vigenereCipher = new VigenereCipher('vitlök', alphabet)
 
-console.log('Caesarmeddelande: ' + caesarCipher.encrypt('Jag hatar dig'))
+console.log('Caesarmeddelande: ' + caesarCipher.encrypt('DeT fJÄrde tESTet'))
 
-console.log('Caesarmeddelande: ' + caesarCipher.decrypt('Ofl mfyfw inl'))
+console.log('Caesarmeddelande: ' + caesarCipher.decrypt('ijy nsqjifsij yjxyjy'))
 
-console.log(
-  'Albertimeddelande: ' + albertiCipher.encrypt('Hur blir det med detta?')
-)
+console.log('Albertimeddelande: ' + albertiCipher.encrypt('DeT fJÄrde tESTet'))
 
 console.log(
   'Albertimeddelande: ' + albertiCipher.decrypt('Jzt dqkw igy rgi igyvf?')
 )
 
-console.log('Vigeneremeddelande: ' + vigenereCipher.encrypt('Ny text'))
+console.log(
+  'Vigeneremeddelande: ' + vigenereCipher.encrypt('DeT fJÄrde tESTet')
+)
 
-console.log('Vigeneremeddelande: ' + vigenereCipher.decrypt('Yy hmni'))
+console.log(
+  'Vigeneremeddelande: ' + vigenereCipher.decrypt('YmJ eTTzwp aZÅJps')
+)
