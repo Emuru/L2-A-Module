@@ -10,19 +10,68 @@
  */
 export class CaesarCipher {
   /**
+   * Key.
+   *
+   * @type {integer}
+   */
+  #key
+
+  /**
+   * Alphabet.
+   *
+   * @type {Object}
+   */
+  #a
+
+  /**
+   * Alphabet.
+   *
+   * @type {String}
+   */
+  #alphabet
+
+  /**
+   * Cipher.
+   *
+   * @type {String}
+   */
+  #cipher
+
+  /**
+   * Casing.
+   *
+   * @type {Array}
+   */
+  #casing
+
+  /**
+   * Encrypted phrase.
+   *
+   * @type {String}
+   */
+  #encryptedPhrase
+
+  /**
+   * Decrypted phrase.
+   *
+   * @type {String}
+   */
+  #decryptedPhrase
+
+  /**
    * Creates a Caesar cipher instance.
    *
    * @param {string} key - The key used for encryption and decryption.
    * @param {Object} alphabet - The alphabet object.
    */
   constructor(key, alphabet) {
-    this.key = key
-    this.a = alphabet
-    this.alphabet = this.a.getAlphabet()
-    this.cipher = this.a.getCipher(this.key)
-    this.casing = []
-    this.encryptedPhrase = ''
-    this.decryptedPhrase = ''
+    this.#key = key
+    this.#a = alphabet
+    this.#alphabet = this.#a.getAlphabet()
+    this.#cipher = this.#a.getCipher(this.#key)
+    this.#casing = []
+    this.#encryptedPhrase = ''
+    this.#decryptedPhrase = ''
   }
 
   /**
@@ -32,19 +81,19 @@ export class CaesarCipher {
    * @returns {string} The encrypted text.
    */
   encrypt(plainText) {
-    this.saveCasing(plainText)
+    this.#saveCasing(plainText)
 
     plainText = plainText.toLowerCase()
 
     for (const index of plainText) {
-      const alphabetIndex = this.alphabet.indexOf(index)
-      if (this.isLetter(alphabetIndex)) {
-        this.encryptLetter(alphabetIndex)
+      const alphabetIndex = this.#alphabet.indexOf(index)
+      if (this.#isLetter(alphabetIndex)) {
+        this.#encryptLetter(alphabetIndex)
       } else {
-        this.keepNonLetter(index)
+        this.#keepNonLetter(index)
       }
     }
-    return (this.encryptedPhrase = this.restoreCasing(this.encryptedPhrase))
+    return (this.#encryptedPhrase = this.#restoreCasing(this.#encryptedPhrase))
   }
 
   /**
@@ -54,18 +103,18 @@ export class CaesarCipher {
    * @returns {string} The decrypted text.
    */
   decrypt(encryptedText) {
-    this.saveCasing(encryptedText)
+    this.#saveCasing(encryptedText)
     encryptedText = encryptedText.toLowerCase()
 
     for (const index of encryptedText) {
-      const cipherIndex = this.cipher.indexOf(index)
-      if (this.isLetter(cipherIndex)) {
-        this.decryptLetter(cipherIndex)
+      const cipherIndex = this.#cipher.indexOf(index)
+      if (this.#isLetter(cipherIndex)) {
+        this.#decryptLetter(cipherIndex)
       } else {
-        this.decryptedPhrase += index
+        this.#decryptedPhrase += index
       }
     }
-    return (this.decryptedPhrase = this.restoreCasing(this.decryptedPhrase))
+    return (this.#decryptedPhrase = this.#restoreCasing(this.#decryptedPhrase))
   }
 
   /**
@@ -74,7 +123,7 @@ export class CaesarCipher {
    * @param {number} index - The index to check.
    * @returns {boolean} True if index is valid, false if it's not.
    */
-  isLetter(index) {
+  #isLetter(index) {
     return index !== -1
   }
 
@@ -93,8 +142,8 @@ export class CaesarCipher {
    *
    * @param {string} nonLetter - The non-letter character to keep.
    */
-  encryptLetter(index) {
-    this.encryptedPhrase += this.cipher.charAt(index)
+  #encryptLetter(index) {
+    this.#encryptedPhrase += this.#cipher.charAt(index)
   }
 
   /**
@@ -102,8 +151,8 @@ export class CaesarCipher {
    *
    * @param {number} cipherIndex - The index of the letter in the cipher table.
    */
-  decryptLetter(cipherIndex) {
-    this.decryptedPhrase += this.alphabet.charAt(cipherIndex)
+  #decryptLetter(cipherIndex) {
+    this.#decryptedPhrase += this.#alphabet.charAt(cipherIndex)
   }
 
   /**
@@ -111,8 +160,8 @@ export class CaesarCipher {
    *
    * @param {string} nonLetter - The non-letter character to keep.
    */
-  keepNonLetter(nonLetter) {
-    this.encryptedPhrase += nonLetter
+  #keepNonLetter(nonLetter) {
+    this.#encryptedPhrase += nonLetter
   }
 
   /**
@@ -120,12 +169,12 @@ export class CaesarCipher {
    *
    * @param {string} text - The text whose casing is to be saved.
    */
-  saveCasing(text) {
+  #saveCasing(text) {
     for (const char of text)
       if (this.isUpperCase(char)) {
-        this.casing.push(true)
+        this.#casing.push(true)
       } else {
-        this.casing.push(false)
+        this.#casing.push(false)
       }
   }
 
@@ -135,10 +184,10 @@ export class CaesarCipher {
    * @param {string} text - The text whose casing is to be restored.
    * @returns {string} The text with restored casing.
    */
-  restoreCasing(text) {
+  #restoreCasing(text) {
     let updatedPhrase = ''
-    for (let i = 0; i < this.casing.length; i++) {
-      if (this.casing[i] === true) {
+    for (let i = 0; i < this.#casing.length; i++) {
+      if (this.#casing[i] === true) {
         updatedPhrase += text.charAt(i).toUpperCase()
       } else {
         updatedPhrase += text.charAt(i)

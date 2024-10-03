@@ -10,6 +10,69 @@
  */
 export class AlbertiCipher {
   /**
+   * First key.
+   *
+   * @type {integer}
+   */
+  #firstKey
+
+  /**
+   * Second key.
+   *
+   * @type {integer}
+   */
+  #secondKey
+
+  /**
+   * Alphabet.
+   *
+   * @type {Object}
+   */
+  #a
+
+  /**
+   * Alphabet.
+   *
+   * @type {String}
+   */
+  #alphabet
+
+  /**
+   * First cipher.
+   *
+   * @type {String}
+   */
+  #firstCipher
+
+  /**
+   * Second cipher.
+   *
+   * @type {String}
+   */
+  #secondCipher
+
+  /**
+   * Casing.
+   *
+   * @type {Array}
+   */
+  #casing
+
+  /**
+   * Encrypted phrase.
+   *
+   * @type {String}
+   */
+  #encryptedPhrase
+
+  /**
+   * Decrypted phrase.
+   *
+   * @type {String}
+   */
+  #decryptedPhrase
+
+  /**
    * Creates a Alberti cipher instance.
    *
    * @param {string} firstKey - The first key used for encryption and decryption.
@@ -17,15 +80,15 @@ export class AlbertiCipher {
    * @param {Object} alphabet - The alphabet object.
    */
   constructor(firstKey, secondKey, alphabet) {
-    this.firstKey = firstKey
-    this.secondKey = secondKey
-    this.a = alphabet
-    this.alphabet = this.a.getAlphabet()
-    this.firstCipher = this.a.cipher(this.firstKey)
-    this.secondCipher = this.a.cipher(this.secondKey)
-    this.casing = []
-    this.encryptedPhrase = ''
-    this.decryptedPhrase = ''
+    this.#firstKey = firstKey
+    this.#secondKey = secondKey
+    this.#a = alphabet
+    this.#alphabet = this.#a.getAlphabet()
+    this.#firstCipher = this.#a.getCipher(this.#firstKey)
+    this.#secondCipher = this.#a.getCipher(this.#secondKey)
+    this.#casing = []
+    this.#encryptedPhrase = ''
+    this.#decryptedPhrase = ''
   }
 
   /**
@@ -35,20 +98,20 @@ export class AlbertiCipher {
    * @returns {string} The encrypted text.
    */
   encrypt(plainText) {
-    this.saveCasing(plainText)
+    this.#saveCasing(plainText)
     plainText = plainText.toLowerCase()
 
     for (let i = 0; i < plainText.length; i++) {
       const letter = plainText.charAt(i)
-      const alphabetIndex = this.alphabet.indexOf(letter)
+      const alphabetIndex = this.#alphabet.indexOf(letter)
 
-      if (this.isLetter(alphabetIndex)) {
-        this.encryptLetter(i, alphabetIndex)
+      if (this.#isLetter(alphabetIndex)) {
+        this.#encryptLetter(i, alphabetIndex)
       } else {
-        this.keepNonLetter(letter)
+        this.#keepNonLetter(letter)
       }
     }
-    return this.restoreCasing(this.encryptedPhrase)
+    return this.#restoreCasing(this.#encryptedPhrase)
   }
 
   /**
@@ -58,29 +121,29 @@ export class AlbertiCipher {
    * @returns {string} The decrypted text.
    */
   decrypt(encryptedText) {
-    this.saveCasing(encryptedText)
+    this.#saveCasing(encryptedText)
     encryptedText = encryptedText.toLowerCase()
 
     for (let i = 0; i < encryptedText.length; i++) {
       const letter = encryptedText.charAt(i)
-      const firstCipherIndex = this.firstCipher.indexOf(letter)
-      const secondCipherIndex = this.secondCipher.indexOf(letter)
+      const firstCipherIndex = this.#firstCipher.indexOf(letter)
+      const secondCipherIndex = this.#secondCipher.indexOf(letter)
 
-      if (this.isEven(i)) {
-        if (this.isLetter(firstCipherIndex)) {
-          this.decryptLetter(firstCipherIndex)
+      if (this.#isEven(i)) {
+        if (this.#isLetter(firstCipherIndex)) {
+          this.#decryptLetter(firstCipherIndex)
         } else {
-          this.decryptedPhrase += letter
+          this.#decryptedPhrase += letter
         }
       } else {
-        if (this.isLetter(secondCipherIndex)) {
-          this.decryptLetter(secondCipherIndex)
+        if (this.#isLetter(secondCipherIndex)) {
+          this.#decryptLetter(secondCipherIndex)
         } else {
-          this.decryptedPhrase += letter
+          this.#decryptedPhrase += letter
         }
       }
     }
-    return this.restoreCasing(this.decryptedPhrase)
+    return this.#restoreCasing(this.#decryptedPhrase)
   }
 
   /**
@@ -88,11 +151,11 @@ export class AlbertiCipher {
    *
    * @param {number} index - The index of the letter in the cipher.
    */
-  encryptLetter(loopIndex, alphabetIndex) {
-    if (this.isEven(loopIndex)) {
-      this.addLetterFromFirstCipher(alphabetIndex)
+  #encryptLetter(loopIndex, alphabetIndex) {
+    if (this.#isEven(loopIndex)) {
+      this.#addLetterFromFirstCipher(alphabetIndex)
     } else {
-      this.addLetterFromSecondCipher(alphabetIndex)
+      this.#addLetterFromSecondCipher(alphabetIndex)
     }
   }
 
@@ -101,8 +164,8 @@ export class AlbertiCipher {
    *
    * @param {number} cipherIndex - The index of the letter in the cipher table.
    */
-  decryptLetter(cipherIndex) {
-    this.decryptedPhrase += this.alphabet.charAt(cipherIndex)
+  #decryptLetter(cipherIndex) {
+    this.#decryptedPhrase += this.#alphabet.charAt(cipherIndex)
   }
 
   /**
@@ -110,8 +173,8 @@ export class AlbertiCipher {
    *
    * @param {number} index - The index of the letter in the cipher.
    */
-  addLetterFromFirstCipher(index) {
-    this.encryptedPhrase += this.firstCipher.charAt(index)
+  #addLetterFromFirstCipher(index) {
+    this.#encryptedPhrase += this.#firstCipher.charAt(index)
   }
 
   /**
@@ -119,8 +182,8 @@ export class AlbertiCipher {
    *
    * @param {number} index - The index of the letter in the cipher.
    */
-  addLetterFromSecondCipher(index) {
-    this.encryptedPhrase += this.secondCipher.charAt(index)
+  #addLetterFromSecondCipher(index) {
+    this.#encryptedPhrase += this.#secondCipher.charAt(index)
   }
 
   /**
@@ -129,7 +192,7 @@ export class AlbertiCipher {
    * @param {number} index - The index to check.
    * @returns {boolean} True if index is valid, false if it's not.
    */
-  isLetter(index) {
+  #isLetter(index) {
     return index !== -1
   }
 
@@ -139,7 +202,7 @@ export class AlbertiCipher {
    * @param {number} i - The number to check.
    * @returns {boolean} True if the number is even, false if not.
    */
-  isEven(i) {
+  #isEven(i) {
     return i % 2 === 0
   }
 
@@ -148,8 +211,8 @@ export class AlbertiCipher {
    *
    * @param {string} nonLetter - The non-letter character to keep.
    */
-  keepNonLetter(nonLetter) {
-    this.encryptedPhrase += nonLetter
+  #keepNonLetter(nonLetter) {
+    this.#encryptedPhrase += nonLetter
   }
 
   isUpperCase(char) {
@@ -161,12 +224,12 @@ export class AlbertiCipher {
    *
    * @param {string} text - The text whose casing is to be saved.
    */
-  saveCasing(text) {
+  #saveCasing(text) {
     for (const char of text)
       if (this.isUpperCase(char)) {
-        this.casing.push(true)
+        this.#casing.push(true)
       } else {
-        this.casing.push(false)
+        this.#casing.push(false)
       }
   }
 
@@ -176,10 +239,10 @@ export class AlbertiCipher {
    * @param {string} text - The text whose casing is to be restored.
    * @returns {string} The text with restored casing.
    */
-  restoreCasing(text) {
+  #restoreCasing(text) {
     let updatedPhrase = ''
-    for (let i = 0; i < this.casing.length; i++) {
-      if (this.casing[i] === true) {
+    for (let i = 0; i < this.#casing.length; i++) {
+      if (this.#casing[i] === true) {
         updatedPhrase += text.charAt(i).toUpperCase()
       } else {
         updatedPhrase += text.charAt(i)

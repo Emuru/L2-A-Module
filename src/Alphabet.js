@@ -10,13 +10,19 @@
  */
 export class Alphabet {
   /**
+   * Aplhabet string
+   *
+   * @type {String}
+   */
+  #alphabet
+  /**
    * Creates an instance of Alphabet.
    * Converts the provided alphabet string to lowercase.
    *
    * @param {string} alphabet - The string representing the alphabet.
    */
   constructor(alphabet) {
-    this.alphabet = alphabet.toLowerCase()
+    this.#alphabet = alphabet.toLowerCase()
   }
 
   /**
@@ -25,7 +31,7 @@ export class Alphabet {
    * @returns {string} The alphabet string.
    */
   getAlphabet() {
-    return this.alphabet
+    return this.#alphabet
   }
 
   /**
@@ -46,8 +52,8 @@ export class Alphabet {
    * @returns {string} The shifted alphabet string.
    */
   cipher(shift) {
-    const lettersToShift = this.alphabet.substring(0, shift)
-    const remainingLetters = this.alphabet.substring(shift)
+    const lettersToShift = this.#alphabet.substring(0, shift)
+    const remainingLetters = this.#alphabet.substring(shift)
     return remainingLetters + lettersToShift
   }
 }

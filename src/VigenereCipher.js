@@ -10,20 +10,76 @@
  */
 export class VigenereCipher {
   /**
+   * Key.
+   *
+   * @type {integer}
+   */
+  #key
+
+  /**
+   * Alphabet.
+   *
+   * @type {Object}
+   */
+  #a
+
+  /**
+   * Alphabet.
+   *
+   * @type {String}
+   */
+  #alphabet
+
+  /**
+   * Casing.
+   *
+   * @type {Array}
+   */
+  #casing
+
+  /**
+   * Cipher table.
+   *
+   * @type {Array}
+   */
+  #cipherTable
+
+  /**
+   * Key line.
+   *
+   * @type {Array}
+   */
+  #keyLine
+
+  /**
+   * Encrypted phrase.
+   *
+   * @type {String}
+   */
+  #encryptedPhrase
+
+  /**
+   * Decrypted phrase.
+   *
+   * @type {String}
+   */
+  #decryptedPhrase
+
+  /**
    * Creates a Vigenère cipher instance.
    *
    * @param {string} key - The key used for encryption and decryption.
    * @param {Object} alphabet - The alphabet object.
    */
   constructor(key, alphabet) {
-    this.key = key
-    this.a = alphabet
-    this.alphabet = this.a.getAlphabet()
-    this.casing = []
-    this.cipherTable = []
-    this.keyLine = []
-    this.encryptedPhrase = ''
-    this.decryptedPhrase = ''
+    this.#key = key
+    this.#a = alphabet
+    this.#alphabet = this.#a.getAlphabet()
+    this.#casing = []
+    this.#cipherTable = []
+    this.#keyLine = []
+    this.#encryptedPhrase = ''
+    this.#decryptedPhrase = ''
   }
 
   /**
@@ -33,27 +89,27 @@ export class VigenereCipher {
    * @returns {string} The encrypted text.
    */
   encrypt(plainText) {
-    this.saveCasing(plainText)
-    this.createVigenereTableAndKeyLine()
+    this.#saveCasing(plainText)
+    this.#createVigenereTableAndKeyLine()
     plainText = plainText.toLowerCase()
 
     for (let i = 0; i < plainText.length; i++) {
       const letter = plainText.charAt(i)
-      const keyLetter = this.keyLine[i]
-      const column = this.cipherTable[0].indexOf(letter)
-      const row = this.cipherTable[0].indexOf(keyLetter)
+      const keyLetter = this.#keyLine[i]
+      const column = this.#cipherTable[0].indexOf(letter)
+      const row = this.#cipherTable[0].indexOf(keyLetter)
 
-      if (this.isLetter(column)) {
-        for (const row of this.cipherTable) {
+      if (this.#isLetter(column)) {
+        for (const row of this.#cipherTable) {
           if (row[0] === keyLetter) {
-            this.encryptLetter(row[column])
+            this.#encryptLetter(row[column])
           }
         }
       } else {
-        this.keepNonLetter(letter)
+        this.#keepNonLetter(letter)
       }
     }
-    return this.restoreCasing(this.encryptedPhrase)
+    return this.#restoreCasing(this.#encryptedPhrase)
   }
 
   /**
@@ -63,23 +119,23 @@ export class VigenereCipher {
    * @returns {string} The decrypted text.
    */
   decrypt(encryptedText) {
-    this.saveCasing(encryptedText)
-    this.createVigenereTableAndKeyLine()
+    this.#saveCasing(encryptedText)
+    this.#createVigenereTableAndKeyLine()
     encryptedText = encryptedText.toLowerCase()
 
     for (let i = 0; i < encryptedText.length; i++) {
       const letter = encryptedText.charAt(i)
-      const keyLetter = this.keyLine[i]
-      const column = this.cipherTable[0].indexOf(letter)
-      const row = this.cipherTable[0].indexOf(keyLetter)
+      const keyLetter = this.#keyLine[i]
+      const column = this.#cipherTable[0].indexOf(letter)
+      const row = this.#cipherTable[0].indexOf(keyLetter)
 
-      if (this.isLetter(column)) {
-        this.decryptLetter(this.cipherTable[row].indexOf(letter))
+      if (this.#isLetter(column)) {
+        this.#decryptLetter(this.#cipherTable[row].indexOf(letter))
       } else {
-        this.decryptedPhrase += letter
+        this.#decryptedPhrase += letter
       }
     }
-    return this.restoreCasing(this.decryptedPhrase)
+    return this.#restoreCasing(this.#decryptedPhrase)
   }
 
   /**
@@ -88,7 +144,7 @@ export class VigenereCipher {
    * @param {number} index - The index to check.
    * @returns {boolean} True if index is valid, false if it's not.
    */
-  isLetter(index) {
+  #isLetter(index) {
     return index !== -1
   }
 
@@ -97,8 +153,8 @@ export class VigenereCipher {
    *
    * @param {string} nonLetter - The non-letter character to keep.
    */
-  keepNonLetter(nonLetter) {
-    this.encryptedPhrase += nonLetter
+  #keepNonLetter(nonLetter) {
+    this.#encryptedPhrase += nonLetter
   }
 
   /**
@@ -106,8 +162,8 @@ export class VigenereCipher {
    *
    * @param {number} index - The index of the letter in the cipher.
    */
-  encryptLetter(index) {
-    this.encryptedPhrase += index
+  #encryptLetter(index) {
+    this.#encryptedPhrase += index
   }
 
   /**
@@ -115,8 +171,8 @@ export class VigenereCipher {
    *
    * @param {number} cipherIndex - The index of the letter in the cipher table.
    */
-  decryptLetter(cipherIndex) {
-    this.decryptedPhrase += this.alphabet.charAt(cipherIndex)
+  #decryptLetter(cipherIndex) {
+    this.#decryptedPhrase += this.#alphabet.charAt(cipherIndex)
   }
 
   /**
@@ -124,10 +180,10 @@ export class VigenereCipher {
    *
    * @returns {Array<string>} The cipher table.
    */
-  createVigenereTableAndKeyLine() {
-    for (let i = 0; i < this.alphabet.length; i++) {
-      this.addLineToTable(i)
-      this.createKeyLine(i)
+  #createVigenereTableAndKeyLine() {
+    for (let i = 0; i < this.#alphabet.length; i++) {
+      this.#addLineToTable(i)
+      this.#createKeyLine(i)
     }
     return this.cipherTable
   }
@@ -137,8 +193,8 @@ export class VigenereCipher {
    *
    * @param {number} index - The current index in the iteration.
    */
-  createKeyLine(index) {
-    this.keyLine.push(this.key[index % this.key.length])
+  #createKeyLine(index) {
+    this.#keyLine.push(this.#key[index % this.#key.length])
   }
 
   /**
@@ -146,8 +202,8 @@ export class VigenereCipher {
    *
    * @param {number} index - The index used to generate the cipher line.
    */
-  addLineToTable(index) {
-    this.cipherTable.push(this.a.getCipher(index))
+  #addLineToTable(index) {
+    this.#cipherTable.push(this.#a.getCipher(index))
   }
 
   /**
@@ -165,12 +221,12 @@ export class VigenereCipher {
    *
    * @param {string} text - The text whose casing is to be saved.
    */
-  saveCasing(text) {
+  #saveCasing(text) {
     for (const char of text)
       if (this.isUpperCase(char)) {
-        this.casing.push(true)
+        this.#casing.push(true)
       } else {
-        this.casing.push(false)
+        this.#casing.push(false)
       }
   }
 
@@ -180,10 +236,10 @@ export class VigenereCipher {
    * @param {string} text - The text whose casing is to be restored.
    * @returns {string} The text with restored casing.
    */
-  restoreCasing(text) {
+  #restoreCasing(text) {
     let updatedPhrase = ''
-    for (let i = 0; i < this.casing.length; i++) {
-      if (this.casing[i] === true) {
+    for (let i = 0; i < this.#casing.length; i++) {
+      if (this.#casing[i] === true) {
         updatedPhrase += text.charAt(i).toUpperCase()
       } else {
         updatedPhrase += text.charAt(i)
