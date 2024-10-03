@@ -67,13 +67,13 @@ caesarCipher.decrypt('ijy nsqjifsij yjxyjy')
 ```
 
 ### Testing ###
-Testing of the module functionalities has been done and you can find the test report [here](./Testreport.md)
+Testing of the module functionalities has been done and you can find the test report [here](./testrapport.md)
 
 ### Dependencies ###
 This module has no dependencies.
 
 ### Code Quality ###
-The code quality of this module has been evaluated and you can find the evaluation [here](./CodeQuality.md)
+The code quality of this module has been evaluated and you can find the evaluation [here](./reflektion.md)
 
 ### License ###
 
