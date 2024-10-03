@@ -41,7 +41,7 @@ export class Alphabet {
    * @returns {string} The shifted alphabet string.
    */
   getCipher(shift) {
-    return this.cipher(shift)
+    return this.#cipher(shift)
   }
 
   /**
@@ -51,7 +51,7 @@ export class Alphabet {
    * @param {number} shift - The number of positions to shift.
    * @returns {string} The shifted alphabet string.
    */
-  cipher(shift) {
+  #cipher(shift) {
     const lettersToShift = this.#alphabet.substring(0, shift)
     const remainingLetters = this.#alphabet.substring(shift)
     return remainingLetters + lettersToShift

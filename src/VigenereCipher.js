@@ -185,7 +185,7 @@ export class VigenereCipher {
       this.#addLineToTable(i)
       this.#createKeyLine(i)
     }
-    return this.cipherTable
+    return this.#cipherTable
   }
 
   /**
