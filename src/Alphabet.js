@@ -6,36 +6,21 @@
  */
 
 export class Alphabet {
-  constructor(letters) {
-    this.upperCaseAlphabet = letters.toUpperCase()
-    this.lowerCaseAlphabet = letters.toLowerCase()
+  constructor(alphabet) {
+    this.alphabet = alphabet.toLowerCase()
   }
 
-  getUpperCaseAlphabet() {
-    return this.upperCaseAlphabet
+  getAlphabet() {
+    return this.alphabet
   }
 
-  getLowerCaseAlphabet() {
-    return this.lowerCaseAlphabet
+  getCipher(shift) {
+    return this.cipher(shift)
   }
 
-  getShiftedUpperCaseAlphabet(shift) {
-    return this.shiftUpperCaseAlphabet(shift)
-  }
-
-  getShiftedLowerCaseAlphabet(shift) {
-    return this.shiftLowerCaseAlphabet(shift)
-  }
-
-  shiftLowerCaseAlphabet(shift) {
-    const lettersToShift = this.lowerCaseAlphabet.substring(0, shift)
-    const remainingLetters = this.lowerCaseAlphabet.substring(shift)
-    return remainingLetters + lettersToShift
-  }
-
-  shiftUpperCaseAlphabet(shift) {
-    const lettersToShift = this.upperCaseAlphabet.substring(0, shift)
-    const remainingLetters = this.upperCaseAlphabet.substring(shift)
+  cipher(shift) {
+    const lettersToShift = this.alphabet.substring(0, shift)
+    const remainingLetters = this.alphabet.substring(shift)
     return remainingLetters + lettersToShift
   }
 }

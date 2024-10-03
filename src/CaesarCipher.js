@@ -4,57 +4,79 @@
  * @author Emil Meri <em223ve@student.lnu.se>
  * @version 0.0.1
  */
-// import { Alphabet } from './Alphabet.js'
 
 export class CaesarCipher {
   constructor(key, alphabet) {
     this.key = key
-    this.alphabet = alphabet
-    this.upperCaseAlphabet = this.alphabet.getUpperCaseAlphabet()
-    this.lowerCaseAlphabet = this.alphabet.getLowerCaseAlphabet()
-    this.shiftedLowerCaseAlphabet = this.alphabet.shiftLowerCaseAlphabet(
-      this.key
-    )
-    this.shiftedUpperCaseAlphabet = this.alphabet.shiftUpperCaseAlphabet(
-      this.key
-    )
+    this.a = alphabet
+    this.alphabet = this.a.getAlphabet()
+    this.cipher = this.a.getCipher(this.key)
+    this.casing = []
     this.encryptedPhrase = ''
     this.decryptedPhrase = ''
   }
 
   encrypt(plainText) {
-    for (const char of plainText) {
-      const upperCaseAlphabetIndex = this.upperCaseAlphabet.indexOf(char)
-      const lowerCaseAlphabetIndex = this.lowerCaseAlphabet.indexOf(char)
-      if (upperCaseAlphabetIndex !== -1) {
-        this.encryptedPhrase =
-          this.encryptedPhrase +
-          this.shiftedUpperCaseAlphabet.charAt(upperCaseAlphabetIndex)
-      } else if (lowerCaseAlphabetIndex !== -1) {
+    this.saveCasing(plainText)
+
+    plainText = plainText.toLowerCase()
+
+    for (const index of plainText) {
+      const alphabetIndex = this.alphabet.indexOf(index)
+      if (alphabetIndex !== -1) {
+        this.addLetter(alphabetIndex)
       } else {
-        this.encryptedPhrase = this.encryptedPhrase + char
+        this.keepNonLetter(index)
       }
     }
-    console.log(this.encryptedPhrase)
+    return (this.encryptedPhrase = this.restoreCasing(this.encryptedPhrase))
   }
 
   decrypt(encryptedText) {
-    for (const char of encryptedText) {
-      const shiftedUpperCaseAlphabetIndex =
-        this.shiftedUpperCaseAlphabet.indexOf(char)
-      const shiftedLowerCaseAlphabetIndex =
-        this.shiftedLowerCaseAlphabet.indexOf(char)
-      if (shiftedUpperCaseAlphabetIndex !== -1) {
-        this.decryptedPhrase =
-          this.decryptedPhrase +
-          this.upperCaseAlphabet.charAt(shiftedUpperCaseAlphabetIndex)
-      } else if (shiftedLowerCaseAlphabetIndex !== -1) {
-        this.decryptedPhrase =
-          this.decryptedPhrase +
-          this.lowerCaseAlphabet.charAt(shiftedLowerCaseAlphabetIndex)
+    this.saveCasing(encryptedText)
+
+    encryptedText = encryptedText.toLowerCase()
+    for (const index of encryptedText) {
+      const cipherIndex = this.cipher.indexOf(index)
+      if (cipherIndex !== -1) {
+        this.decryptedPhrase += this.alphabet.charAt(cipherIndex)
       } else {
-        this.decryptedPhrase = this.decryptedPhrase + char
+        this.decryptedPhrase += index
       }
     }
+    return (this.decryptedPhrase = this.restoreCasing(this.decryptedPhrase))
+  }
+
+  isUpperCase(char) {
+    return /\p{L}/u.test(char) && char === char.toUpperCase()
+  }
+
+  addLetter(index) {
+    this.encryptedPhrase += this.cipher.charAt(index)
+  }
+
+  keepNonLetter(nonLetter) {
+    this.encryptedPhrase += nonLetter
+  }
+
+  saveCasing(text) {
+    for (const char of text)
+      if (this.isUpperCase(char)) {
+        this.casing.push(true)
+      } else {
+        this.casing.push(false)
+      }
+  }
+
+  restoreCasing(text) {
+    let updatedPhrase = ''
+    for (let i = 0; i < this.casing.length; i++) {
+      if (this.casing[i] === true) {
+        updatedPhrase += text.charAt(i).toUpperCase()
+      } else {
+        updatedPhrase += text.charAt(i)
+      }
+    }
+    return updatedPhrase
   }
 }
