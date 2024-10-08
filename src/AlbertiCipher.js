@@ -82,10 +82,9 @@ export class AlbertiCipher {
   constructor(firstKey, secondKey, alphabet) {
     this.#firstKey = firstKey
     this.#secondKey = secondKey
-    this.#a = alphabet
-    this.#alphabet = this.#a.getAlphabet()
-    this.#firstCipher = this.#a.getCipher(this.#firstKey)
-    this.#secondCipher = this.#a.getCipher(this.#secondKey)
+    this.#alphabet = alphabet.getAlphabet()
+    this.#firstCipher = alphabet.getCipher(this.#firstKey)
+    this.#secondCipher = alphabet.getCipher(this.#secondKey)
     this.#casing = []
     this.#encryptedPhrase = ''
     this.#decryptedPhrase = ''

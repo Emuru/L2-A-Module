@@ -66,9 +66,8 @@ export class CaesarCipher {
    */
   constructor(key, alphabet) {
     this.#key = key
-    this.#a = alphabet
-    this.#alphabet = this.#a.getAlphabet()
-    this.#cipher = this.#a.getCipher(this.#key)
+    this.#alphabet = alphabet.getAlphabet()
+    this.#cipher = alphabet.getCipher(this.#key)
     this.#casing = []
     this.#encryptedPhrase = ''
     this.#decryptedPhrase = ''
