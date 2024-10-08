@@ -214,7 +214,7 @@ export class AlbertiCipher {
     this.#encryptedPhrase += nonLetter
   }
 
-  isUpperCase(char) {
+  #isUpperCase(char) {
     return /\p{L}/u.test(char) && char === char.toUpperCase()
   }
 
@@ -225,7 +225,7 @@ export class AlbertiCipher {
    */
   #saveCasing(text) {
     for (const char of text)
-      if (this.isUpperCase(char)) {
+      if (this.#isUpperCase(char)) {
         this.#casing.push(true)
       } else {
         this.#casing.push(false)

@@ -212,7 +212,7 @@ export class VigenereCipher {
    * @param {string} char - The character to check.
    * @returns {boolean} True if the character is uppercase, false if not.
    */
-  isUpperCase(char) {
+  #isUpperCase(char) {
     return /\p{L}/u.test(char) && char === char.toUpperCase()
   }
 
@@ -223,7 +223,7 @@ export class VigenereCipher {
    */
   #saveCasing(text) {
     for (const char of text)
-      if (this.isUpperCase(char)) {
+      if (this.#isUpperCase(char)) {
         this.#casing.push(true)
       } else {
         this.#casing.push(false)
