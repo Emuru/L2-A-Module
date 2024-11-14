@@ -12,7 +12,6 @@
     "Emil Meri <em223ve@student.lnu.se"
   ],
   "license": "MIT",
-  "private": true,
   "devDependencies": {
     "jest": "^29.7.0"
   }
