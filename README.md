@@ -1,4 +1,4 @@
-L2 - A Module
+Nardus - A module for encrypting strings using classic ciphers
 =============
 
 This is a simple module used to encrypt strings using three classic ciphers, the [Caesar cipher](https://www.simonsingh.net/The_Black_Chamber/caesar.html), the [Alberti cipher](https://www.simonsingh.net/The_Black_Chamber/swapping_cipher_alphabets.html) and the [Vigenere cipher](https://www.simonsingh.net/The_Black_Chamber/v_square.html).

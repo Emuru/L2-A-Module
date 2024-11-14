@@ -33,13 +33,4 @@ describe('AlbertiCipher', () => {
     const encrypted = cipher.encrypt(plaintext)
     expect(encrypted).toBe('FjV hOAwfj yGXVjv')
   })
-
-  test('correct isUpperCase identification', () => {
-    expect(cipher.isUpperCase('A')).toBe(true)
-    expect(cipher.isUpperCase('H')).toBe(true)
-    expect(cipher.isUpperCase('b')).toBe(false)
-    expect(cipher.isUpperCase('p')).toBe(false)
-    expect(cipher.isUpperCase('3')).toBe(false)
-    expect(cipher.isUpperCase(' ')).toBe(false)
-  })
 })
