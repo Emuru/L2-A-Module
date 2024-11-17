@@ -5,7 +5,7 @@
  * @version 0.0.1
  */
 
-import { Cipher } from './Cipher'
+import { Cipher } from './Cipher.js'
 
 /**
  * Class representing a Vigenère cipher.
