@@ -10,11 +10,11 @@ This is a simple module used to encrypt strings using three classic ciphers, the
 
 ### Setup ###
 
-To use this package one must just clone this very repository and then import the ciphers into desired project and use as one see fit.
+Install the module using the command below.
 #### Git clone
 
 ```sh
-git clone git@github.com:Emuru/L2-A-Module.git
+npm i nardus
 ```
 
 #### Import to project
